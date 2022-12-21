@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.huy.exercise.training.core.ServiceFactory;
 import com.huy.exercise.training.model.Customer;
+import com.huy.exercise.training.model.Gender;
 import com.huy.exercise.training.model.MembershipLevel;
 import com.huy.exercise.training.service.ICustomerService;
 
@@ -32,14 +33,13 @@ public class CustomerServlet extends HttpServlet {
             System.out.println("gender: " + gender);
             System.out.println("phoneNumber:" + phoneNumber);
             System.out.println("membership_level:" + membership_level);
-            
-           
 
-            req.setAttribute("customers",  ServiceFactory.get(ICustomerService.class).searchCustomer(name, gender, phoneNumber, membership_level));
+            req.setAttribute("customers", ServiceFactory.get(ICustomerService.class).searchCustomers(name, gender,
+                    phoneNumber, membership_level));
             getServletContext().getRequestDispatcher("/pages/customerList.jsp").forward(req, resp);
         }
         if ("/customer/list".equalsIgnoreCase(requestURI)) {
-            resp.setContentType("Text/html");          
+            resp.setContentType("Text/html");
         } else if (requestURI.contains("/customer/delete")) {
             String id = req.getParameter("id");
 //            System.out.println("delete patient id: " + id);
@@ -47,15 +47,18 @@ public class CustomerServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/customer");
         } else if (requestURI.contains("/customer/view")) {
             String id = req.getParameter("id");
-            req.setAttribute("customer", customerService.getCustomerById(Integer.parseInt(id)));
-            getServletContext().getRequestDispatcher("/pages/customerDetails.jsp").forward(req, resp);
-            
-          
+            Customer customer = customerService.getCustomerById(Integer.parseInt(id));
+            if (customer == null) {
+                getServletContext().getRequestDispatcher("/pages/404.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("customer", customer);
+                getServletContext().getRequestDispatcher("/pages/customerDetails.jsp").forward(req, resp);
+            }
         } else if (requestURI.contains("/customer/editCustomer")) {
             String id = req.getParameter("id");
             req.setAttribute("customer", customerService.getCustomerById(Integer.parseInt(id)));
             getServletContext().getRequestDispatcher("/pages/editCustomer.jsp").forward(req, resp);
-            
+
         } else {
             req.setAttribute("customers", customerService.getCustomer());
             getServletContext().getRequestDispatcher("/pages/customerList.jsp").forward(req, resp);
@@ -77,13 +80,8 @@ public class CustomerServlet extends HttpServlet {
 //            System.out.println("phoneNumber:" + phoneNumber);
 //            System.out.println("membership_level:" + membership_level);
 //            
-//            Customer c = new Customer();
-//            c.setName(name);
-//            c.setGender(gender);
-//            c.setPhoneNumber(phoneNumber);
-//            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
 //            
-//            req.setAttribute("search",  ServiceFactory.get(ICustomerService.class).searchCustomer(c));
+//            req.setAttribute("search",  ServiceFactory.get(ICustomerService.class).searchCustomers(name,gender,phoneNumber,membership_level));
 //            getServletContext().getRequestDispatcher("/pages/customerList.jsp").forward(req, resp);
 //            resp.sendRedirect(req.getContextPath() + "/customer");
 //        }
@@ -94,40 +92,42 @@ public class CustomerServlet extends HttpServlet {
             String phoneNumber = req.getParameter("phone");
             String address = req.getParameter("address");
             String email = req.getParameter("email");
-            String membership_level = req.getParameter("membership_level");
-            int point = Integer.parseInt( req.getParameter("point"));
+//            String membership_level = req.getParameter("membership_level");
+            int point = Integer.parseInt(req.getParameter("point"));
+          
             Customer c = new Customer();
             c.setId(Integer.parseInt(id));
             c.setName(name);
-            c.setGender(gender);
+            c.setGender(Gender.valueOf(gender));
             c.setPhoneNumber(phoneNumber);
             c.setAddress(address);
             c.setEmail(email);
-            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
+//            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
             c.setPoint(point);
-            
+
             ServiceFactory.get(ICustomerService.class).editCustomer(c);
             resp.sendRedirect(req.getContextPath() + "/customer");
         }
+
         
+        // sdfgsdfsdf
         if ("/customer/add".equalsIgnoreCase(requestURI)) {
             String name = req.getParameter("name");
             String gender = req.getParameter("gender");
             String phoneNumber = req.getParameter("phone");
             String address = req.getParameter("address");
             String email = req.getParameter("email");
-            String membership_level = req.getParameter("membership_level");
-            int point = Integer.parseInt( req.getParameter("point"));
+//            String membership_level = req.getParameter("membership_level");
+//            int point = Integer.parseInt(req.getParameter("point"));
             Customer c = new Customer();
             c.setName(name);
-            c.setGender(gender);
+            c.setGender(Gender.valueOf(gender));
             c.setPhoneNumber(phoneNumber);
             c.setAddress(address);
             c.setEmail(email);
-            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
-            c.setPoint(point);
-            
-            
+//            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
+//            c.setPoint(point);
+
             ServiceFactory.get(ICustomerService.class).addCustomer(c);
             resp.sendRedirect(req.getContextPath() + "/customer");
         }

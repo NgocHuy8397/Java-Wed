@@ -20,15 +20,15 @@
        <h1>Edit Customer</h1>
         <form id="addCustomerForm" method="post" action="/customer/update">
         <div >
-            <div id="edit">Id: <input name="id" value="${customer.id}"></input> </div>
-            <div id="edit">name: <input name="name" value="${customer.name}"></input></div>
+            <div id="edit"><input name = "id" value ="${customer.id}" type="hidden" ></div>
+            <div id="edit">Name: <input name="name" value="${customer.name}"></input></div>
             <div id="edit">Gender: <input name="gender" value="${customer.gender}"></input></div>
             <div id="edit">Address: <input name="address" value="${customer.address}"></input></div>
             <div id="edit">Point: <input name="point" value="${customer.point}"></input></div>
             <div id="edit">Phone number: <input name="phone" value="${customer.phoneNumber}"></input></div>
             <div id="edit">Email: <input name="email" value="${customer.email}"></input></div>
-            <div id="edit">Membership Level: <input name="membership_level" value="${customer.membershipLevel}"></input></div>
-            <div id="edit">Freeticket: <input name="freeticket" value="${customer.membershipLevel.freeTicket}"></input></div>
+            <div id="edit"><input name="membership_level" value="${customer.membershipLevel}" type="hidden" ></div>
+            <div id="edit">Freeticket: <b>${customer.membershipLevel.freeTicket}</b></div>
         </div>
             <input id="save" type="submit" value="Save" />
             <input id="cancel" type="submit" value="Cancel" />

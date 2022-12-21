@@ -3,7 +3,7 @@ package com.huy.exercise.training.model;
 public class Customer {
     private int id;
     private String name;
-    private String gender;
+    private Gender gender;
     private String phoneNumber;
     private String address;
     private MembershipLevel membershipLevel;
@@ -27,7 +27,11 @@ public class Customer {
     }
 
     public int getPoint() {
-        return point;
+        if(point >= 0) {
+            return this.point;
+        }
+       
+        return this.point = 1;
     }
 
     public void setPoint(int point) {
@@ -50,11 +54,11 @@ public class Customer {
         this.name = name;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

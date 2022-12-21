@@ -11,12 +11,15 @@
         #addPatientForm {
             padding-top: 20px;
         }
+        #infomation{
+            
+        }
 
         </style>
     </head>
     <body>
        <%@include file="header.jsp" %>
-        <div>
+        <div id="infomation">
             <div>Id: <b>${customer.id}</b></div>
             <div>Name: <b>${customer.name}</b></div>
             <div>Gender: <b>${customer.gender}</b></div>

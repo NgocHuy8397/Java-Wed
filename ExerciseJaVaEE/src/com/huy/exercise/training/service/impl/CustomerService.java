@@ -59,8 +59,8 @@ public class CustomerService implements ICustomerService{
     }
 
     @Override
-    public List<Customer> searchCustomer(String name , String gender, String phone, String membershipLevel) {
-        return customerDAO.searchCustomer(name,gender,phone,membershipLevel);
+    public List<Customer> searchCustomers(String name , String gender, String phone, String membershipLevel) {
+        return customerDAO.searchCustomers(name, gender, phone, membershipLevel);
         
     }
     

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.huy.exercise.training.model.Customer;
+import com.huy.exercise.training.model.Gender;
 import com.huy.exercise.training.model.MembershipLevel;
 
 public class CustomerDAO {
@@ -89,12 +90,12 @@ public class CustomerDAO {
 //                System.out.println("address: " + address);
 //                System.out.println("email: " + email);
 //                System.out.println("point: " + point);
-//                System.out.println("membershipLevel: " + membershipLevel);
+                System.out.println("membershipLevel: " + membershipLevel);
 
                 Customer c = new Customer();
                 c.setId(id);
                 c.setName(name);
-                c.setGender(gender);
+                c.setGender(Gender.valueOf(gender));
                 c.setMembershipLevel(MembershipLevel.valueOf(membershipLevel));
                 c.setPhoneNumber(phoneNumber);
                 c.setAddress(address);
@@ -125,7 +126,7 @@ public class CustomerDAO {
 
             preparedStatement.setInt(1, ++maxId);
             preparedStatement.setString(2, c.getName());
-            preparedStatement.setString(3, c.getGender());
+            preparedStatement.setString(3, c.getGender().toString());
             preparedStatement.setString(4, c.getPhoneNumber());
             preparedStatement.setString(5, c.getAddress());
             preparedStatement.setString(6, c.getEmail());
@@ -165,14 +166,15 @@ public class CustomerDAO {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = DatabaseConnection.getConnection()
-                    .prepareStatement("update customer set name = ?,gender = ?, phone = ?, address = ?, email = ?, point = ? where id  = ?");
+                    .prepareStatement("update customer set name = ?,gender = ?, phone = ?, address = ?, email = ?,membership_level = ?, point = ? where id  = ?");
             preparedStatement.setString(1,customer.getName());
-            preparedStatement.setString(2,customer.getGender());
+            preparedStatement.setString(2,customer.getGender().toString());
             preparedStatement.setString(3,customer.getPhoneNumber());
             preparedStatement.setString(4,customer.getAddress());
             preparedStatement.setString(5,customer.getEmail());
-            preparedStatement.setInt(6,customer.getPoint());
-            preparedStatement.setInt(7,customer.getId());
+            preparedStatement.setString(6, customer.getMembershipLevel().toString());
+            preparedStatement.setInt(7,customer.getPoint());
+            preparedStatement.setInt(8,customer.getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -181,19 +183,20 @@ public class CustomerDAO {
             closeQuietly(preparedStatement);
         }
     }
-    public List<Customer> searchCustomer(String name , String gender, String phone, String membershipLevel) {
+    public List<Customer> searchCustomers(String name , String gender, String phone, String membershipLevel) {
         List<Customer> customers = new ArrayList<>(); 
         PreparedStatement preparedStatement = null;
         try {
             String sql = "select * from customer where";
             String whereSql = "";
+            System.out.println("NAME" + name);
             if (name != null && !name.isEmpty()) {
                 if(!whereSql.isEmpty()) whereSql += " and";
                 whereSql += " name ilike ?";
             }
             if (gender != null && !gender.isEmpty()) {
                 if (!whereSql.isEmpty()) whereSql += " and";
-                whereSql += " gender ilike ?";
+                whereSql += " gender = ?";
             }
             if (phone != null && !phone.isEmpty()) {
                 if(!whereSql.isEmpty()) whereSql += " and";
@@ -205,30 +208,36 @@ public class CustomerDAO {
             }
             sql += whereSql;
             int index = 0;
+            System.out.println("sql: " + sql);
             preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql);
             if (name != null && !name.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%"+ name +"%");
+                preparedStatement.setString(index, "%" + name + "%");
+//                System.out.println("index" + index);
             }
             if (gender != null && !gender.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%"+ gender +"%");
+                //preparedStatement.setString(index, "%" + gender + "%");
+                preparedStatement.setString(index, gender);
+//                System.out.println("index" + index);
             }
             if (phone != null && !phone.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%"+ phone +"%");
+                preparedStatement.setString(index, "%" + phone + "%");
+                System.out.println("index" + index);
             }
             if (membershipLevel != null && !membershipLevel.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%"+ membershipLevel +"%");
+                preparedStatement.setString(index, "%" + membershipLevel + "%");
+                System.out.println("index" + index);
             }
-            System.out.println("sql" + sql);
+            
             ResultSet  rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Customer c = new Customer();
                 c.setId(Integer.parseInt(rs.getString("id")));
                 c.setName(rs.getString("name"));
-                c.setGender(rs.getString("gender"));
+                c.setGender(Gender.valueOf(rs.getString("gender")));
                 c.setPhoneNumber(rs.getString("phone"));
                 c.setAddress(rs.getString("address"));
                 c.setEmail(rs.getString("email"));
@@ -262,7 +271,9 @@ public class CustomerDAO {
                     .prepareStatement("select * from customer where id = ?");
             preparedStatement.setInt(1, customerId);
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
+            if (rs == null || rs.next() == false) {
+                return null;
+            }
 
             int id = rs.getInt("id");
             String name = rs.getString("name");
@@ -284,7 +295,7 @@ public class CustomerDAO {
             Customer c = new Customer();
             c.setId(id);
             c.setName(name);
-            c.setGender(gender);
+            c.setGender(Gender.valueOf(gender));;
             c.setMembershipLevel(MembershipLevel.valueOf(membershipLevel));
             c.setPhoneNumber(phoneNumber);
             c.setAddress(address);

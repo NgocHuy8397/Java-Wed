@@ -12,7 +12,8 @@
         }
         
         #submit{
-            color:red;        
+            color:red; 
+            margin: 10px 10px;       
         }
         #editviewdelete{
             display: flex;
@@ -52,16 +53,16 @@
        <h2>Customer List: ${customers.size()}</h2>
        <h1>Search customer</h1>
        <form id="searchcustomer" method="get" action="/customer/search">
-            <div id="search">Search name: <input name="name"></input> </div>
+            <div id="search">Name: <input name="name"></input> </div>
             <br>
-            <div id="search">Search phone: <input name="phone"></input> </div>
+            <div id="search">Phone: <input name="phone"></input> </div>
             <br>
             <div id="search">Gender: <select name="gender">
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="">All</option>
             </select></div>
-            <div id="search">Search membership level: <select name="membership_level">
+            <div id="search">Membership level: <select name="membership_level">
               <option value="Gold">Gold</option>
               <option value="Silver">Silver</option>
               <option value="Platinum">Platinum</option>
@@ -109,43 +110,34 @@
             </tbody>
        </table>
        <form id="addCustomerForm" method="post" action="/customer/add">
-           <label for="name">Enter customer name:</label>
+           <label for="name">Customer name:</label>
            <input type="text" id="name" name="name" />
            <br/>
            <br/>
-           <label for="name">Enter customer gender:</label>
+           <label for="name">Customer gender:</label>
             <select name="gender">
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
            <br />
            <br/>
-           <label for="name">Enter customer phone:</label>
+           <label for="name">Customer phone:</label>
            <input type="text" id="name" name="phone" />
            <br />
            <br/>
-           <label for="name">Enter customer address:</label>
+           <label for="name">Customer address:</label>
            <input type="text" id="name" name="address" />
            <br />
            <br/>
-           <label for="name">Enter customer email:</label>
+           <label for="name">Customer email:</label>
            <input type="text" id="name" name="email" />
            <br />
-           <br/>
-           <label for="name">Chose customer membership level:</label>
-           <select name="membership_level">
-              <option value="Gold">Gold</option>
-              <option value="Silver">Silver</option>
-              <option value="Platinum">Platinum</option>
-            </select>
-           <br />
-           <br/>
-           <label for="name">Enter customer point:</label>
-           <input type="text" id="name" name="point" />
-           <br />
-           <br/>
+     
            <input id="submit" type="submit" value="Submit" />
        </form>
-       
+       <script>
+            
+       </script>
     </body>
+
 </html>
