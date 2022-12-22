@@ -11,6 +11,7 @@ import java.util.List;
 import com.huy.exercise.training.model.Customer;
 import com.huy.exercise.training.model.Gender;
 import com.huy.exercise.training.model.MembershipLevel;
+import com.huy.exercise.training.util.ValidationUtil;
 
 public class CustomerDAO {
     public void addCustomerViaStament() {
@@ -187,12 +188,13 @@ public class CustomerDAO {
         List<Customer> customers = new ArrayList<>(); 
         PreparedStatement preparedStatement = null;
         try {
-            String sql = "select * from customer where";
+
+            String sql = "select * from customer";
             String whereSql = "";
             System.out.println("NAME" + name);
             if (name != null && !name.isEmpty()) {
                 if(!whereSql.isEmpty()) whereSql += " and";
-                whereSql += " name ilike ?";
+                whereSql += " name = ?";
             }
             if (gender != null && !gender.isEmpty()) {
                 if (!whereSql.isEmpty()) whereSql += " and";
@@ -200,12 +202,17 @@ public class CustomerDAO {
             }
             if (phone != null && !phone.isEmpty()) {
                 if(!whereSql.isEmpty()) whereSql += " and";
-                whereSql += " phone ilike ?";
+                whereSql += " phone = ?";
             }
             if (membershipLevel != null && !membershipLevel.isEmpty()) {
                 if(!whereSql.isEmpty()) whereSql += " and";
-                whereSql += " membership_level ilike ?";
+                whereSql += " membership_level = ?";
             }
+            
+            if (!ValidationUtil.isNullOrEmpty(whereSql)) {
+                whereSql = " where " + whereSql;
+            }
+            
             sql += whereSql;
             int index = 0;
             System.out.println("sql: " + sql);
@@ -213,22 +220,21 @@ public class CustomerDAO {
             if (name != null && !name.isEmpty()) {
                 index ++;
                 preparedStatement.setString(index, "%" + name + "%");
-//                System.out.println("index" + index);
+
             }
             if (gender != null && !gender.isEmpty()) {
                 index ++;
                 //preparedStatement.setString(index, "%" + gender + "%");
                 preparedStatement.setString(index, gender);
-//                System.out.println("index" + index);
             }
             if (phone != null && !phone.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%" + phone + "%");
+                preparedStatement.setString(index, phone);
                 System.out.println("index" + index);
             }
             if (membershipLevel != null && !membershipLevel.isEmpty()) {
                 index ++;
-                preparedStatement.setString(index, "%" + membershipLevel + "%");
+                preparedStatement.setString(index, membershipLevel);
                 System.out.println("index" + index);
             }
             

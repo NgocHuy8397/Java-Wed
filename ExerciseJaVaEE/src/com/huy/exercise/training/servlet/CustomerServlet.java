@@ -94,23 +94,26 @@ public class CustomerServlet extends HttpServlet {
             String email = req.getParameter("email");
 //            String membership_level = req.getParameter("membership_level");
             int point = Integer.parseInt(req.getParameter("point"));
-          
-            Customer c = new Customer();
-            c.setId(Integer.parseInt(id));
-            c.setName(name);
-            c.setGender(Gender.valueOf(gender));
-            c.setPhoneNumber(phoneNumber);
-            c.setAddress(address);
-            c.setEmail(email);
+            if (point < 0) {
+                resp.sendRedirect(req.getContextPath() + "/pages/Error.jsp");
+            } else {
+                Customer c = new Customer();
+                c.setId(Integer.parseInt(id));
+                c.setName(name);
+                c.setGender(Gender.valueOf(gender));
+                c.setPhoneNumber(phoneNumber);
+                c.setAddress(address);
+                c.setEmail(email);
 //            c.setMembershipLevel(MembershipLevel.valueOf(membership_level));
-            c.setPoint(point);
-
-            ServiceFactory.get(ICustomerService.class).editCustomer(c);
-            resp.sendRedirect(req.getContextPath() + "/customer");
+                c.setPoint(point);
+                
+                ServiceFactory.get(ICustomerService.class).editCustomer(c);
+                resp.sendRedirect(req.getContextPath() + "/customer");
+                
+            }
+            
         }
 
-        
-        // sdfgsdfsdf
         if ("/customer/add".equalsIgnoreCase(requestURI)) {
             String name = req.getParameter("name");
             String gender = req.getParameter("gender");

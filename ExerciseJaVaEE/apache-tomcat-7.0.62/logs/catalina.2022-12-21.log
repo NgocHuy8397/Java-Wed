@@ -5036,3 +5036,19 @@ Dec 21, 2022 4:08:12 PM org.apache.coyote.AbstractProtocol start
 INFO: Starting ProtocolHandler ["ajp-bio-8009"]
 Dec 21, 2022 4:08:12 PM org.apache.catalina.startup.Catalina start
 INFO: Server startup in 690 ms
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol pause
+INFO: Pausing ProtocolHandler ["http-bio-8080"]
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol pause
+INFO: Pausing ProtocolHandler ["ajp-bio-8009"]
+Dec 21, 2022 4:42:27 PM org.apache.catalina.core.StandardService stopInternal
+INFO: Stopping service Catalina
+Dec 21, 2022 4:42:27 PM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc
+SEVERE: The web application [] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol stop
+INFO: Stopping ProtocolHandler ["http-bio-8080"]
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol stop
+INFO: Stopping ProtocolHandler ["ajp-bio-8009"]
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol destroy
+INFO: Destroying ProtocolHandler ["http-bio-8080"]
+Dec 21, 2022 4:42:27 PM org.apache.coyote.AbstractProtocol destroy
+INFO: Destroying ProtocolHandler ["ajp-bio-8009"]

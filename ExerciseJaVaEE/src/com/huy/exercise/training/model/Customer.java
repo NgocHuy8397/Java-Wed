@@ -27,11 +27,12 @@ public class Customer {
     }
 
     public int getPoint() {
-        if(point >= 0) {
-            return this.point;
-        }
-       
-        return this.point = 1;
+//        if(point >= 0) {
+//            return this.point;
+//        }
+//       
+//        return this.point = 0;
+        return point;
     }
 
     public void setPoint(int point) {
